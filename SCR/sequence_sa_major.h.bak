@@ -1,0 +1,36 @@
+#ifndef __sequence_imu_major_H
+#define __sequence_imu_major_H
+
+#include "stm32f10x.h"
+#include "def_datastructure.h"
+#include "def_globalmacro.h"
+#include "delay.h"
+#include "driver_MS5611.h"
+#include "driver_HMC5983.h"
+#include "driver_CRMx00.h"
+#include "driver_ADXRS290.h"
+#include "driver_AD7689.h"
+#include "Interface_Init.h"
+#include "AHRS_Madgwick.h"
+#include "pid.h"
+
+void sq_lite_major_state_update(
+	struct str_lite_identity* lite_identity,
+	struct str_lite_sensor* lite_sensor,
+	struct str_lite_state* lite_state,
+	struct str_lite_toc* lite_toc,
+	struct str_lite_input* lite_input,
+	struct str_lite_cfg* lite_cfg);
+void sq_lite_major_control_generate(
+	struct str_lite_state* lite_state,
+	struct str_lite_identity* lite_identity,
+	struct str_lite_toc* lite_toc,
+	struct str_lite_input* lite_input,
+	struct str_lite_output* lite_output,
+	struct str_lite_cfg* lite_cfg);
+void sq_lite_major_control_execuate(
+	struct str_lite_input* lite_input,
+	struct str_lite_output* lite_output,
+	struct str_lite_cfg* lite_cfg);
+
+#endif

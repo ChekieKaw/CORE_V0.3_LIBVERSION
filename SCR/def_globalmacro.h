@@ -1,0 +1,9 @@
+#ifndef __DEF_GLOBALMACRO_H
+#define __DEF_GLOBALMACRO_H
+
+#define CFG_LENGTH_INBYTE 184
+#define CFG_LENGTH_INWORD	46
+
+#define USE_DSM_SATELLITE
+
+#endif

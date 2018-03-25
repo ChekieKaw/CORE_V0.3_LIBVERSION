@@ -1,0 +1,25 @@
+#ifndef __SEQUENCE_IMU_MINOR
+#define __SEQUENCE_IMU_MINOR
+
+#include "def_datastructure.h"
+#include <math.h>
+#include "config.h"
+
+void sq_lite_minor_cali_sampling(
+	struct str_lite_identity* lite_identity,
+	struct str_lite_sensor* lite_sensor,
+	struct str_lite_cali* lite_cali);
+void sq_lite_minor_cali_update(
+	struct str_lite_identity* lite_identity,
+	struct str_lite_cfg* lite_cfg,
+	struct str_lite_cali* lite_cali);
+void sq_minor_cali_gyro(
+	struct str_lite_identity* lite_identity,
+	struct str_lite_sensor* lite_sensor,
+	struct str_lite_cfg* lite_cfg);
+void sq_minor_cali_acc_quick(
+	struct str_lite_identity* lite_identity,
+	struct str_lite_sensor* lite_sensor,
+	struct str_lite_cali* lite_cali,
+	struct str_lite_cfg* lite_cfg);
+#endif

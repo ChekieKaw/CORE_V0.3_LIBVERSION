@@ -1,0 +1,121 @@
+#include "driver_MPU6000.h"
+
+u8 pBuf[14];
+static int16_t DATA[6];
+static u8 flag_SPI_fail=0;
+//u8 flag_SPI_fail_test_send=0;
+//u8 flag_SPI_fail_test_receive=0;
+void MPU6000_Init(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)
+{
+	int i=0;
+	for(i=0;i<5000;i++){}
+	MPU6000_WriteRegister(0x6A,0x10,GPIOx,GPIO_Pin);
+	for(i=0;i<5000;i++){}
+	MPU6000_WriteRegister(GYRO_CONFIG,0x10,GPIOx,GPIO_Pin);
+	for(i=0;i<5000;i++){}
+	MPU6000_WriteRegister(ACCEL_CONFIG,0x18,GPIOx,GPIO_Pin);
+	for(i=0;i<5000;i++){}
+	MPU6000_WriteRegister(PWR_MGMT1,0x00,GPIOx,GPIO_Pin);
+	for(i=0;i<5000;i++){}
+	MPU6000_WriteRegister(PWR_MGMT2,0x00,GPIOx,GPIO_Pin);
+}
+
+u8 MPU6000_ReadRegister(u8 add,GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)
+{
+	u8 val=0;
+	GPIO_ResetBits(GPIOx,GPIO_Pin);
+	SPI1_ReadWriteByte(add|0x80);//发送寄存器地址	
+	val = SPI1_ReadWriteByte(0x80);//读取寄存器数据	
+	GPIO_SetBits(GPIOx,GPIO_Pin);	
+	return val;  
+}
+
+void MPU6000_WriteRegister(u8 add,u8 val,GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)
+{
+	GPIO_ResetBits(GPIOx,GPIO_Pin); 	
+ 	SPI1_ReadWriteByte(add);
+ 	SPI1_ReadWriteByte(val);
+	GPIO_SetBits(GPIOx,GPIO_Pin);
+}
+u8 SPI1_ReadWriteByte(u8 TxData)
+{
+	int retry=0;					 
+	while((SPI1->SR&(1<<1))==0)
+	{
+		retry++;
+		if(retry>10000)
+		{
+			//flag_SPI_fail++;
+			//flag_SPI_fail_test_send++;
+			return 0;
+		}
+	}
+	//SPI_I2S_SendData(SPI1,TxData);
+	SPI1->DR=TxData;
+	retry=0;
+	while((SPI1->SR&(1<<0))==0)
+	{
+		retry++;
+		if(retry>10000)
+		{
+			//flag_SPI_fail++;
+			//flag_SPI_fail_test_receive++;
+			return 0;
+		}
+	}	
+	//return SPI_I2S_ReceiveData(SPI1);
+	return SPI1->DR; 
+}
+
+void MPU6000_Read(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int16_t* gy, int16_t* gz,GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)
+{
+	u8 i = 0;
+	GPIO_ResetBits(GPIOx,GPIO_Pin);  //片选使能
+ 	SPI1_ReadWriteByte(ACCEL_XOUTH|0x80);//发送寄存器地址	
+ 	for(i=0;i<14;i++)
+ 	{
+ 		pBuf[i] = SPI1_ReadWriteByte(0x80);//读取寄存器数据;				
+ 	}
+	
+	GPIO_SetBits(GPIOx,GPIO_Pin); //关闭通讯
+	if(!flag_SPI_fail)
+	{
+		DATA[0]=(((int16_t)pBuf[0]) << 8) | pBuf[1];
+    	DATA[1]=(((int16_t)pBuf[2]) << 8) | pBuf[3];
+    	DATA[2]=(((int16_t)pBuf[4]) << 8) | pBuf[5];
+    	DATA[3]=(((int16_t)pBuf[8]) << 8) | pBuf[9];
+    	DATA[4]=(((int16_t)pBuf[10]) << 8) | pBuf[11];
+    	DATA[5]=(((int16_t)pBuf[12]) << 8) | pBuf[13];
+	}
+	flag_SPI_fail=0;
+	*ax = DATA[0];
+	*ay = DATA[1];
+	*az = DATA[2];
+	*gx = DATA[3];
+	*gy = DATA[4];
+	*gz = DATA[5];	
+}
+
+void MPU6000_Read_Gyro(int16_t* gx, int16_t* gy, int16_t* gz,GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)
+{
+	u8 i = 0;
+	GPIO_ResetBits(GPIOx,GPIO_Pin);  //片选使能
+ 	SPI1_ReadWriteByte(GYRO_XOUTH|0x80);//发送寄存器地址	
+ 	for(i=0;i<6;i++)
+ 	{
+ 		pBuf[i] = SPI1_ReadWriteByte(0x80);//读取寄存器数据;				
+ 	}
+	
+	GPIO_SetBits(GPIOx,GPIO_Pin); //关闭通讯
+	if(!flag_SPI_fail)
+	{
+		DATA[3]=(((int16_t)pBuf[8]) << 8) | pBuf[9];
+    	DATA[4]=(((int16_t)pBuf[10]) << 8) | pBuf[11];
+    	DATA[5]=(((int16_t)pBuf[12]) << 8) | pBuf[13];
+    	
+	}
+	flag_SPI_fail=0;
+	*gx = DATA[3];
+	*gy = DATA[4];
+	*gz = DATA[5];	
+}

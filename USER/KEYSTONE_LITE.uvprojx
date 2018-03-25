@@ -365,7 +365,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_MD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\USER;..\CORE;..\STM32F10x_FWLib\inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\SCR;..\DRIVER</IncludePath>
+              <IncludePath>..\USER;..\CORE;..\STM32F10x_FWLib\inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\SCR;..\DRIVER;..\HitLink</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -562,6 +562,36 @@
               <FileName>driver_MS5611.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\DRIVER\driver_MS5611.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>HitLink</GroupName>
+          <Files>
+            <File>
+              <FileName>checksum.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\HitLink\checksum.h</FilePath>
+            </File>
+            <File>
+              <FileName>hitlink.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\HitLink\hitlink.h</FilePath>
+            </File>
+            <File>
+              <FileName>hitlink_attitute.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\HitLink\hitlink_attitute.h</FilePath>
+            </File>
+            <File>
+              <FileName>hitlink_heartbeat.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\HitLink\hitlink_heartbeat.h</FilePath>
+            </File>
+            <File>
+              <FileName>protocol.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\HitLink\protocol.h</FilePath>
             </File>
           </Files>
         </Group>

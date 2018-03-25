@@ -1,4 +1,6 @@
 #include "main.h"
+#include "hitlink.h"
+#include "string.h"
 uint32_t KEY[3]={0x066BFF49,0x48528472,0x67194853};
 
 float dt=0.0f;
@@ -9,6 +11,7 @@ uint8_t flag_readkey=0;
 static uint8_t n_iteration=0;
 uint8_t i;
 uint8_t dataserial=0;
+int flag=1;
 
 /*USART*/
 uint16_t USART1_RX_STA;
@@ -31,6 +34,11 @@ struct str_glb_toc glb_toc;
 union uni_glb_cfg glb_cfg;
 
 extern uint16_t DSM_SVPOS[28];
+
+/*Hitlink 协议数据*/
+hitlink_msg msg;
+hitlink_heartbeat_t heartbeat;
+hitlink_attitute_t attitute;
 
 
 
@@ -136,70 +144,99 @@ extern uint16_t DSM_SVPOS[28];
    uint16_t crc = 0;  
    uint8_t *ptr = USART2_TX_BUF;  
 	 
-	 USART2_TX_BUF[0]=0xFE;	//包头
-	 USART2_TX_BUF[1]=dataserial; //包序列号
-	 USART2_TX_BUF[2]=25+48;	//包长(字符形式的数字)
-	 USART2_TX_BUF[3]=1;			//姿态数据包
 	 
-/*	 for(j=0;j<4;j++)					//四元数发送
-	 {
-	 temp.in_float=glb_state.q[j];
-	 for(i=0;i<3;i++)
-	 {
-		 USART2_TX_BUF[i+4*j+4]=temp.in_char[i];
+//	 
+//	 USART2_TX_BUF[0]=0xFE;	//包头
+//	 USART2_TX_BUF[1]=dataserial; //包序列号
+//	 USART2_TX_BUF[2]=25+48;	//包长(字符形式的数字)
+//	 USART2_TX_BUF[3]=1;			//姿态数据包
+//	 
+	 //发送心跳包
+	 if(flag){
+		heartbeat.time_stamp = 0x11111111;//心跳包内容初始化
+		heartbeat.type = Quadrotor;
+		heartbeat.system_state = Auto;
+		heartbeat.connect_flag = UNAVALIABLE;
+	 hitlink_init(&msg);
+	 hitlink_heartbeat_pack(&heartbeat,&msg);//心跳包内容打包到payload里面
 	 }
-	 count=i+4*j+4;
-	}*/
-	 
-		 for(j=0;j<3;j++)					//欧拉角发送
-	 {
-	 temp.in_float=glb_state.euler[j];
-	 for(i=0;i<3;i++)
-	 {
-		 USART2_TX_BUF[i+3*j+4]=temp.in_char[i];
+	 else {
+	 //发送姿态数据
+	 attitute.time_stamp = 0x00000000;//填入姿态数据
+	 attitute.roll = glb_state.euler[0];
+	 attitute.pitch = glb_state.euler[1];
+	 attitute.yaw = glb_state.euler[2];
+	 attitute.roll_speed = glb_state.omega[0];
+	 attitute.pitch_speed = glb_state.omega[1];
+	 attitute.yaw_speed = glb_state.omega[2];
+	 //memset((msg.payload),0,HITLINK_MAX_LEN);
+	 hitlink_init(&msg);
+	 hitlink_attitute_pack(&attitute,&msg);
 	 }
-	}
+	 msg.sequence = dataserial;//添加序列号		 
+	 hit_link_msg2buffer(&msg,(char*)USART2_TX_BUF);//全部消息打包，发送
+	 flag = !flag;
 	 
-			 for(j=0;j<3;j++)					//角速度发送
-	 {
-	 temp.in_float=glb_state.omega[j];
-	 for(i=0;i<3;i++)
-	 {
-		 USART2_TX_BUF[i+3*j+13]=temp.in_char[i];
-	 }
-	}
 	 
-	 while( len-- ) {  
-      for(i = 0x80; i != 0; i = i >> 1) {  
-        if((crc & 0x8000) != 0) {  
-           crc = crc << 1;  
-           crc = crc ^ 0x1021;  
-        }  
-        else {  
-           crc = crc << 1;  
-        }  
-        if((*ptr & i) != 0) {  
-          crc = crc ^ 0x1021;   
-        }  
-     }  
-     ptr++;  
-   } 
-	 crcdata.in_uint16=crc;
-	 USART2_TX_BUF[23]=crcdata.in_char[0];
-	 USART2_TX_BUF[24]=crcdata.in_char[1];
-	 
-	 USART2_TX_BUF[25]=0xFE;	//包头
-	 USART2_TX_BUF[26]=dataserial; //包序列号
-	 USART2_TX_BUF[27]=7+48;	//包长(字符形式的数字)
-	 USART2_TX_BUF[28]=0;			//心跳包
-	 USART2_TX_BUF[29]=1;				//飞行器类型
-	 USART2_TX_BUF[30]=1; 			//连接状态
-	 USART2_TX_BUF[31]=1;	//系统状态
-	 
-	for(i=32;i<64;i++)
-	{
-		USART2_TX_BUF[i]=0x00;
-	}
+///*	 for(j=0;j<4;j++)					//四元数发送
+//	 {
+//	 temp.in_float=glb_state.q[j];
+//	 for(i=0;i<3;i++)
+//	 {
+//		 USART2_TX_BUF[i+4*j+4]=temp.in_char[i];
+//	 }
+//	 count=i+4*j+4;
+//	}*/
+//	 
+//		 for(j=0;j<3;j++)					//欧拉角发送
+//	 {
+//	 temp.in_float=glb_state.euler[j];
+//	 for(i=0;i<3;i++)
+//	 {
+//		 USART2_TX_BUF[i+3*j+4]=temp.in_char[i];
+//	 }
+//	}
+//	 
+//			 for(j=0;j<3;j++)					//角速度发送
+//	 {
+//	 temp.in_float=glb_state.omega[j];
+//	 for(i=0;i<3;i++)
+//	 {
+//		 USART2_TX_BUF[i+3*j+13]=temp.in_char[i];
+//	 }
+//	}
+//	 
+//	 while( len-- ) {  
+//      for(i = 0x80; i != 0; i = i >> 1) {  
+//        if((crc & 0x8000) != 0) {  
+//           crc = crc << 1;  
+//           crc = crc ^ 0x1021;  
+//        }  
+//        else {  
+//           crc = crc << 1;  
+//        }  
+//        if((*ptr & i) != 0) {  
+//          crc = crc ^ 0x1021;   
+//        }  
+//     }  
+//     ptr++;  
+//   } 
+//	 crcdata.in_uint16=crc;
+//	 USART2_TX_BUF[23]=crcdata.in_char[0];
+//	 USART2_TX_BUF[24]=crcdata.in_char[1];
+//	 
+//	 USART2_TX_BUF[25]=0xFE;	//包头
+//	 USART2_TX_BUF[26]=dataserial; //包序列号
+//	 USART2_TX_BUF[27]=7+48;	//包长(字符形式的数字)
+//	 USART2_TX_BUF[28]=0;			//心跳包
+//	 USART2_TX_BUF[29]=1;				//飞行器类型
+//	 USART2_TX_BUF[30]=1; 			//连接状态
+//	 USART2_TX_BUF[31]=1;	//系统状态
+//	 
+//	for(i=32;i<64;i++)
+//	{
+//		USART2_TX_BUF[i]=0x00;
+//	}
 	
 	if(dataserial==255)
 	 {dataserial=0;}

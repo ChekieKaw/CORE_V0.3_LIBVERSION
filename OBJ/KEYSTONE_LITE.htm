@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\OBJ\KEYSTONE_LITE.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\OBJ\KEYSTONE_LITE.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050106: Last Updated: Wed Mar 28 22:43:52 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050106: Last Updated: Wed Mar 28 23:18:37 2018
 <BR><P>
 <H3>Maximum Stack Usage =        588 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -444,7 +444,6 @@ Global Symbols
 
 <P><STRONG><a name="[e1]"></a>__aeabi_f2uiz</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, ffixui.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sq_sa_major_control_execuate
-<LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_float_buf
 </UL>
 
 <P><STRONG><a name="[50]"></a>__aeabi_d2iz</STRONG> (Thumb, 62 bytes, Stack size 16 bytes, dfixi.o(.text))
@@ -748,7 +747,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[73]"></a>Datainput</STRONG> (Thumb, 220 bytes, Stack size 16 bytes, main.o(i.Datainput))
-<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = Datainput &rArr; hitlink_attitute_pack &rArr; put_float_buf
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = Datainput &rArr; hit_link_msg2buffer &rArr; crc_calculate
 </UL>
 <BR>[Calls]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hitlink_init
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hitlink_heartbeat_pack
@@ -1649,8 +1648,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Datainput
 </UL>
 
-<P><STRONG><a name="[76]"></a>hitlink_attitute_pack</STRONG> (Thumb, 90 bytes, Stack size 16 bytes, main.o(i.hitlink_attitute_pack))
-<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = hitlink_attitute_pack &rArr; put_float_buf
+<P><STRONG><a name="[76]"></a>hitlink_attitute_pack</STRONG> (Thumb, 80 bytes, Stack size 12 bytes, main.o(i.hitlink_attitute_pack))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = hitlink_attitute_pack
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_uint32_t_buf
 <LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_float_buf
@@ -1658,8 +1657,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Datainput
 </UL>
 
-<P><STRONG><a name="[75]"></a>hitlink_heartbeat_pack</STRONG> (Thumb, 54 bytes, Stack size 16 bytes, main.o(i.hitlink_heartbeat_pack))
-<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = hitlink_heartbeat_pack &rArr; put_uint32_t_buf
+<P><STRONG><a name="[75]"></a>hitlink_heartbeat_pack</STRONG> (Thumb, 50 bytes, Stack size 12 bytes, main.o(i.hitlink_heartbeat_pack))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = hitlink_heartbeat_pack
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_uint32_t_buf
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_int_buf
@@ -1710,24 +1709,16 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
 </UL>
-<P><STRONG><a name="[d9]"></a>put_float_buf</STRONG> (Thumb, 44 bytes, Stack size 24 bytes, main.o(i.put_float_buf))
-<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = put_float_buf
-</UL>
-<BR>[Calls]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2uiz
-</UL>
-<BR>[Called By]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hitlink_attitute_pack
+<P><STRONG><a name="[d9]"></a>put_float_buf</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, main.o(i.put_float_buf))
+<BR><BR>[Called By]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hitlink_attitute_pack
 </UL>
 
-<P><STRONG><a name="[da]"></a>put_int_buf</STRONG> (Thumb, 38 bytes, Stack size 12 bytes, main.o(i.put_int_buf))
-<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = put_int_buf
-</UL>
-<BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hitlink_heartbeat_pack
+<P><STRONG><a name="[da]"></a>put_int_buf</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, main.o(i.put_int_buf))
+<BR><BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hitlink_heartbeat_pack
 </UL>
 
-<P><STRONG><a name="[d8]"></a>put_uint32_t_buf</STRONG> (Thumb, 38 bytes, Stack size 12 bytes, main.o(i.put_uint32_t_buf))
-<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = put_uint32_t_buf
-</UL>
-<BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hitlink_heartbeat_pack
+<P><STRONG><a name="[d8]"></a>put_uint32_t_buf</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, main.o(i.put_uint32_t_buf))
+<BR><BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hitlink_heartbeat_pack
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hitlink_attitute_pack
 </UL>
 
@@ -1763,10 +1754,10 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
 <LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fmul
-<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2uiz
 <LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
 <LI><a href="#[42]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fdiv
 <LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fadd
+<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2uiz
 </UL>
 <BR>[Called By]<UL><LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM3_IRQHandler
 </UL>

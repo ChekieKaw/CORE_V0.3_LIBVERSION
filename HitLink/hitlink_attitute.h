@@ -47,19 +47,19 @@ void hitlink_attitute_pack(hitlink_attitute_t *hitlink_attitute_msg,\
 							hitlink_msg *hitlinkmsg)
 {
 	int count=0;
-	put_uint32_t_buf(hitlinkmsg->payload,hitlink_attitute_msg->time_stamp);
+	put_uint32_t_buf(hitlinkmsg->payload,(hitlink_attitute_msg->time_stamp));
 	count += UINT32_SIZE;
-	put_float_buf((hitlinkmsg->payload)+count,hitlink_attitute_msg->roll);
+	put_float_buf((hitlinkmsg->payload)+count,(hitlink_attitute_msg->roll));
 	count += FLOAT_SIZE;
-	put_float_buf((hitlinkmsg->payload)+count,hitlink_attitute_msg->pitch);
+	put_float_buf((hitlinkmsg->payload)+count,(hitlink_attitute_msg->pitch));
 	count += FLOAT_SIZE;
-	put_float_buf((hitlinkmsg->payload)+count,hitlink_attitute_msg->yaw);
+	put_float_buf((hitlinkmsg->payload)+count,(hitlink_attitute_msg->yaw));
 	count += FLOAT_SIZE;
-	put_float_buf((hitlinkmsg->payload)+count,hitlink_attitute_msg->roll_speed);
+	put_float_buf((hitlinkmsg->payload)+count,(hitlink_attitute_msg->roll_speed));
 	count += FLOAT_SIZE;
-	put_float_buf((hitlinkmsg->payload)+count,hitlink_attitute_msg->pitch_speed);
+	put_float_buf((hitlinkmsg->payload)+count,(hitlink_attitute_msg->pitch_speed));
 	count += FLOAT_SIZE;
-	put_float_buf((hitlinkmsg->payload)+count,hitlink_attitute_msg->yaw_speed);
+	put_float_buf((hitlinkmsg->payload)+count,(hitlink_attitute_msg->yaw_speed));
 }
 #endif
 							

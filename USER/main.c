@@ -12,6 +12,7 @@ static uint8_t n_iteration=0;
 uint8_t i;
 uint8_t dataserial=0;
 int flag=1;
+uint16_t crcAccum = 0;
 
 /*USART*/
 uint16_t USART1_RX_STA;
@@ -145,12 +146,12 @@ hitlink_attitute_t attitute;
    uint8_t *ptr = USART2_TX_BUF;  
 	 
 	 
-//	 
+	 
 //	 USART2_TX_BUF[0]=0xFE;	//包头
 //	 USART2_TX_BUF[1]=dataserial; //包序列号
 //	 USART2_TX_BUF[2]=25+48;	//包长(字符形式的数字)
 //	 USART2_TX_BUF[3]=1;			//姿态数据包
-//	 
+	 
 	 //发送心跳包
 	 if(flag){
 		heartbeat.time_stamp = 0x11111111;//心跳包内容初始化
@@ -159,6 +160,8 @@ hitlink_attitute_t attitute;
 		heartbeat.connect_flag = UNAVALIABLE;
 	 hitlink_init(&msg);
 	 hitlink_heartbeat_pack(&heartbeat,&msg);//心跳包内容打包到payload里面
+		 msg.payload_len=HITLINK_HEARTBEAT_MSG_LEN;
+		 msg.message=HITLINK_HEARTBEAT_MSG_ID;
 	 }
 	 else {
 	 //发送姿态数据
@@ -172,9 +175,15 @@ hitlink_attitute_t attitute;
 	 //memset((msg.payload),0,HITLINK_MAX_LEN);
 	 hitlink_init(&msg);
 	 hitlink_attitute_pack(&attitute,&msg);
+	 msg.payload_len=HITLINK_ATTITUTE_MSG_LEN ;
+		 msg.message = HITLINK_ATTITUTE_MSG_ID ;
 	 }
+	 //hitlink_calculatelen(&msg);
 	 msg.sequence = dataserial;//添加序列号		 
-	 hit_link_msg2buffer(&msg,(char*)USART2_TX_BUF);//全部消息打包，发送
+	 hit_link_msg2buffer(&msg,USART2_TX_BUF);//全部消息打包，发送
+	 crcAccum = crc_calculate(USART2_TX_BUF,msg.payload_len+4);
+	 msg.CRC_h = crcAccum >> 8;
+	 msg.CRC_l = crcAccum & 0x00FF;
 	 flag = !flag;
 	 
 	 

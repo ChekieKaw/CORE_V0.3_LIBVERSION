@@ -24,7 +24,7 @@ typedef struct __hitlink_msg{
 	uint8_t sequence;
 	uint8_t payload_len;
 	uint8_t message;
-	char payload[HITLINK_MAX_LEN];
+	unsigned char payload[HITLINK_MAX_LEN];
 	uint8_t CRC_h;
 	uint8_t CRC_l;
 	}hitlink_msg;
@@ -33,7 +33,7 @@ typedef struct __hitlink_msg{
 
 void hitlink_calculatelen(hitlink_msg *hitlinkmsg);
 void hitlink_init(hitlink_msg *hitlinkmsg);
-void hit_link_msg2buffer(hitlink_msg *hitlinkmsg, char *pbuffer);
+void hit_link_msg2buffer(hitlink_msg *hitlinkmsg, uint8_t *pbuffer);
 	
 /* Includes ------------------------------------------------------------------*/
 #include "protocol.h"
@@ -66,7 +66,7 @@ void hitlink_calculatelen(hitlink_msg *hitlinkmsg)
 //	}
 //	len=flag+1;
 //	hitlinkmsg->payload_len=len;
-	hitlinkmsg->payload_len=strlen(hitlinkmsg->payload);
+	hitlinkmsg->payload_len=strlen((char *)hitlinkmsg->payload);
 }
 
 /**
@@ -81,7 +81,7 @@ void hitlink_init(hitlink_msg *hitlinkmsg)
 	hitlinkmsg->start = HITLINK_STR;
 	hitlinkmsg->CRC_h=0;
 	hitlinkmsg->CRC_l=0;
-	hitlink_calculatelen(hitlinkmsg);
+	//hitlink_calculatelen(hitlinkmsg);
 	memset(hitlinkmsg->payload,0,HITLINK_MAX_LEN);
 }
 
@@ -93,7 +93,7 @@ void hitlink_init(hitlink_msg *hitlinkmsg)
  * @param buffer pin
  * @return None
  **/
-void hit_link_msg2buffer(hitlink_msg *hitlinkmsg, char *pbuffer)
+void hit_link_msg2buffer(hitlink_msg *hitlinkmsg,uint8_t *pbuffer)
 {
 	int p=0;
 	uint16_t crcAccum;
@@ -101,13 +101,14 @@ void hit_link_msg2buffer(hitlink_msg *hitlinkmsg, char *pbuffer)
 	*(pbuffer+1) = (uint8_t)hitlinkmsg->sequence;
 	*(pbuffer+2) = (uint8_t)hitlinkmsg->payload_len;
 	*(pbuffer+3) = (uint8_t)hitlinkmsg->message;
-	for(p=0;p < hitlinkmsg->payload_len;p++)
-	{
-		*(pbuffer+4+p) = (uint8_t) hitlinkmsg->payload[p];
-	}
-	crc_accumulate_buffer(&crcAccum,pbuffer,(hitlinkmsg->payload_len+4));
-	*(pbuffer+4+hitlinkmsg->payload_len)=(uint8_t)crcAccum>>8;
-	*(pbuffer+5+hitlinkmsg->payload_len)=(uint8_t)crcAccum&0x00FF;
+//	for(p=0;p < (hitlinkmsg->payload_len);p++)
+//	{
+//		*(pbuffer+4+p) = hitlinkmsg->payload[p];
+//	}
+	memcpy(pbuffer+4,hitlinkmsg->payload,hitlinkmsg->payload_len);
+	crcAccum = crc_calculate(pbuffer,hitlinkmsg->payload_len+4);
+	*(pbuffer+4+(hitlinkmsg->payload_len))=(uint8_t)(crcAccum>>8);
+	*(pbuffer+5+(hitlinkmsg->payload_len))=(uint8_t)(crcAccum&0x00FF);
 }
 
 #endif

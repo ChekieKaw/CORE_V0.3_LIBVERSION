@@ -1,5 +1,5 @@
 Dependencies for Project 'KEYSTONE_LITE', Target 'KEYSTONE_LITE': (DO NOT MODIFY !)
-F (.\main.c)(0x5AB7A86A)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I..\USER -I..\CORE -I..\STM32F10x_FWLib\inc -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\SCR -I..\DRIVER -I..\HitLink-I C:\Documents\哈工大\无人机\CORE_V0.3_LIBVERSION\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_MD -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
+F (.\main.c)(0x5ABB5E7B)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I..\USER -I..\CORE -I..\STM32F10x_FWLib\inc -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\SCR -I..\DRIVER -I..\HitLink-I C:\Documents\哈工大\无人机\CORE_V0.3_LIBVERSION\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_MD -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
 I (main.h)(0x5AB621BE)
 I (stm32f10x.h)(0x55FFE91B)
 I (..\CORE\core_cm3.h)(0x4D523B58)
@@ -36,11 +36,11 @@ I (..\SCR\sequence_sa_major.h)(0x5A9AB48C)
 I (..\SCR\AHRS_Madgwick.h)(0x5A9AB48C)
 I (..\SCR\pid.h)(0x5943628F)
 I (..\SCR\sequence_sa_minor.h)(0x59427E9A)
-I (..\HitLink\hitlink.h)(0x5AB7A6A1)
+I (..\HitLink\hitlink.h)(0x5ABB55B7)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
-I (..\HitLink\protocol.h)(0x5AB7A198)
-I (..\HitLink\hitlink_heartbeat.h)(0x5AB7A127)
-I (..\HitLink\hitlink_attitute.h)(0x5AB7A53E)
+I (..\HitLink\protocol.h)(0x5ABB4FB5)
+I (..\HitLink\hitlink_heartbeat.h)(0x5ABB4D32)
+I (..\HitLink\hitlink_attitute.h)(0x5ABB4CB9)
 I (..\HitLink\checksum.h)(0x5AB786A2)
 F (.\stm32f10x_it.c)(0x4EBEACB0)(-c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I..\USER -I..\CORE -I..\STM32F10x_FWLib\inc -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\SCR -I..\DRIVER -I..\HitLink-I C:\Documents\哈工大\无人机\CORE_V0.3_LIBVERSION\USER\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="514" -DSTM32F10X_MD -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o ..\obj\stm32f10x_it.o --omf_browse ..\obj\stm32f10x_it.crf --depend ..\obj\stm32f10x_it.d)
 I (stm32f10x_it.h)(0x4D99A426)
@@ -471,7 +471,7 @@ I (..\STM32F10x_FWLib\inc\misc.h)(0x4D783BB4)
 I (..\SCR\delay.h)(0x52DBCAEB)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x5475F2FE)
 F (..\HitLink\checksum.h)(0x5AB786A2)()
-F (..\HitLink\hitlink.h)(0x5AB7A6A1)()
-F (..\HitLink\hitlink_attitute.h)(0x5AB7A53E)()
-F (..\HitLink\hitlink_heartbeat.h)(0x5AB7A127)()
-F (..\HitLink\protocol.h)(0x5AB7A198)()
+F (..\HitLink\hitlink.h)(0x5ABB55B7)()
+F (..\HitLink\hitlink_attitute.h)(0x5ABB4CB9)()
+F (..\HitLink\hitlink_heartbeat.h)(0x5ABB4D32)()
+F (..\HitLink\protocol.h)(0x5ABB4FB5)()

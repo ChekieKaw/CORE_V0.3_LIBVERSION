@@ -13,6 +13,10 @@
 #define HITLINK_ATTITUTE_MSG_ID	1
 #endif
 
+#ifndef HITLINK_ATTITUTE_MSG_LEN
+#define HITLINK_ATTITUTE_MSG_LEN 7*4
+#endif
+
 /* Typedefine line of the basic link----------------------------------------- */
 typedef struct __hitlink_attitute_t{
 	uint32_t time_stamp;
@@ -42,13 +46,20 @@ hitlink_attitute_t hitlink_attitute_msg;
 void hitlink_attitute_pack(hitlink_attitute_t *hitlink_attitute_msg,\
 							hitlink_msg *hitlinkmsg)
 {
+	int count=0;
 	put_uint32_t_buf(hitlinkmsg->payload,hitlink_attitute_msg->time_stamp);
-	put_float_buf(hitlinkmsg->payload,hitlink_attitute_msg->roll);
-	put_float_buf(hitlinkmsg->payload,hitlink_attitute_msg->pitch);
-	put_float_buf(hitlinkmsg->payload,hitlink_attitute_msg->yaw);
-	put_float_buf(hitlinkmsg->payload,hitlink_attitute_msg->roll_speed);
-	put_float_buf(hitlinkmsg->payload,hitlink_attitute_msg->pitch_speed);
-	put_float_buf(hitlinkmsg->payload,hitlink_attitute_msg->yaw_speed);
+	count += UINT32_SIZE;
+	put_float_buf((hitlinkmsg->payload)+count,hitlink_attitute_msg->roll);
+	count += FLOAT_SIZE;
+	put_float_buf((hitlinkmsg->payload)+count,hitlink_attitute_msg->pitch);
+	count += FLOAT_SIZE;
+	put_float_buf((hitlinkmsg->payload)+count,hitlink_attitute_msg->yaw);
+	count += FLOAT_SIZE;
+	put_float_buf((hitlinkmsg->payload)+count,hitlink_attitute_msg->roll_speed);
+	count += FLOAT_SIZE;
+	put_float_buf((hitlinkmsg->payload)+count,hitlink_attitute_msg->pitch_speed);
+	count += FLOAT_SIZE;
+	put_float_buf((hitlinkmsg->payload)+count,hitlink_attitute_msg->yaw_speed);
 }
 #endif
 							

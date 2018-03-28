@@ -67,7 +67,7 @@ static  uint16_t crc_calculate(const uint8_t* pBuffer, uint16_t length)
 	while (length--) {
                 crc_accumulate(*pBuffer++, &crcTmp);
         }
-        return crcTmp;
+        return ~crcTmp;
 }
 
 

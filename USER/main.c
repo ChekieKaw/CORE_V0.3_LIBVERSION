@@ -332,7 +332,7 @@ void TIM3_IRQHandler(void)
 	//DMA1_Channel6->CNDTR=64;
 	//DMA_ClearFlag(DMA1_FLAG_TC6);
 	DMA_Cmd(DMA1_Channel7, ENABLE);
-
+		while (!DMA_GetFlagStatus(DMA1_FLAG_TC7))
 		IWDG_ReloadCounter();		
 		TIM_ClearITPendingBit(TIM3,TIM_IT_Update);
 	}

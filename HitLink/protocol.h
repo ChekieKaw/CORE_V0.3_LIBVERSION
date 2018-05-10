@@ -31,7 +31,7 @@ void put_float_buf(unsigned char *buffer, float data)
 //	float_buf[1]=((uint32_t)data>>(8*2))&0x000000FF;
 //	float_buf[2]=((uint32_t)data>>(8*1))&0x000000FF;
 //	float_buf[3]=((uint32_t)data&0x000000FF);
-	memcpy(buffer,&data,(unsigned int)sizeof(float));
+	memcpy(buffer,&data,(unsigned int)FLOAT_SIZE);
 }
 
 void put_uint32_t_buf(unsigned char *buffer, uint32_t data)
@@ -53,7 +53,7 @@ void put_int_buf(unsigned char *buffer, int data)
 //	{
 //		int_buf[i]=((uint32_t)data>>(8*(INT_SIZE-1-i)))&0x000000FF;
 //	}
-	memcpy(buffer,&data,(unsigned int)sizeof(int));
+	memcpy(buffer,&data,(unsigned int)INT_SIZE);
 }
 #endif
 /*********************************************************************************************************
